@@ -4,18 +4,18 @@ import org.junit.jupiter.api.function.Executable
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import pl.lodz.uni.project1.Pierwsza
+import pl.lodz.uni.project1.turing.Turing
 import java.util.stream.Stream
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class PierwszaTest {
+internal class TuringTest {
     @ParameterizedTest
-    @MethodSource("testPierwszaData")
-    fun testPierwsza(liczba: Int) {
-        assertDoesNotThrow(Exec(liczba))
+    @MethodSource("testRunData")
+    fun testRun(number: Int) {
+        assertDoesNotThrow(Exec(number))
     }
 
-    private fun testPierwszaData(): Stream<Arguments?>? {
+    private fun testRunData(): Stream<Arguments?>? {
         return Stream.of(
             Arguments.of(2),
             Arguments.of(3),
@@ -27,12 +27,12 @@ internal class PierwszaTest {
     }
 
     @ParameterizedTest
-    @MethodSource("testNiePierwszaData")
-    fun testNiePierwsza(liczba: Int) {
-        assertThrows(IllegalArgumentException().javaClass,Exec(liczba))
+    @MethodSource("testRunThrowData")
+    fun testRunThrow(number: Int) {
+        assertThrows(IllegalArgumentException().javaClass,Exec(number))
     }
 
-    private fun testNiePierwszaData(): Stream<Arguments?>? {
+    private fun testRunThrowData(): Stream<Arguments?>? {
         return Stream.of(
             Arguments.of(1),
             Arguments.of(4),
@@ -45,9 +45,9 @@ internal class PierwszaTest {
         )
     }
 
-    private class Exec(val liczba: Int) : Executable {
+    private class Exec(val number: Int) : Executable {
         override fun execute() {
-            Pierwsza.liczbaPierwsza(liczba)
+            Turing(number).run()
         }
     }
 }
