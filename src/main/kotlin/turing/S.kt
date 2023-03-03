@@ -9,6 +9,7 @@ enum class S(val value: String) {
     S5("S5"),
     S6("S6"),
     S7("S7"),
+    S12("S12"),
     S8("S8"),
     S9("S9"),
     S10("S10"),

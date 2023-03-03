@@ -4,16 +4,14 @@ class Turing private constructor(
     private val array: Array<L>, private var i: Int, private var state: S, private var iteration: Int = 1
 ) {
     companion object {
-//        val x = 20
-
         operator fun invoke(number: Int): Turing {
-//            val arr = Array(x * 2 + 3) { if (it < x || it >= x + number) L.EMPTY else L._0 }
             val arr = Array(number * 2 + 2) { if (it <= number || it > 2 * number) L.EMPTY else L._0 }
             return Turing(arr, number + 1, S.S0);
         }
     }
 
     private fun exec(move: M, newState: S = state, newValue: L = array[i]) {
+//        if(iteration>1000) throw StackOverflowError(">1000")
         println("$iteration:\t(${state.value},${array[i].value})->(${newState.value},${newValue.value},${move.string})\t$this")
         iteration++
         array[i] = newValue
@@ -79,7 +77,7 @@ class Turing private constructor(
                         L.B -> exec(M.R)
                         L._1 -> exec(M.R)
                         L._0 -> exec(M.L, S.S6, L._1)
-                        L.EMPTY -> exec(M.L, S.S8)
+                        L.EMPTY -> exec(M.L, S.S8)//TODO
                         else -> throw IllegalArgumentException("(${S.S5},${array[i].value})")
                     }
                 }
@@ -97,8 +95,20 @@ class Turing private constructor(
                 S.S7 -> {
                     when (array[i]) {
                         L.B -> exec(M.R, S.S7, L.A)
-                        L._1 -> exec(M.L, S.S4)
+                        L._1 -> exec(M.R)
+                        L._0 -> exec(M.L, S.S12,L._0)
+                        L.EMPTY -> exec(M.L, S.S8, L.E)
+//                        L.EMPTY -> throw IllegalArgumentException("The number is not prime")
                         else -> throw IllegalArgumentException("(${S.S7},${array[i].value})")
+                    }
+                }
+
+                S.S12 -> {
+                    when (array[i]) {
+                        L._1 -> exec(M.L)
+//                        L.EMPTY -> throw IllegalArgumentException("The number is not prime")
+                        L.A -> exec(M.R, S.S5, L.B)
+                        else -> throw IllegalArgumentException("(${S.S12},${array[i].value})")
                     }
                 }
 
@@ -116,6 +126,7 @@ class Turing private constructor(
                         L.C -> exec(M.L)
                         L.A, L.B -> exec(M.R, S.S10, L.C)
                         L.EMPTY -> exec(M.R, S.S11, L.A)
+                        L.E -> throw IllegalArgumentException("The number is not prime")
                         else -> throw IllegalArgumentException("(${S.S9},${array[i].value})")
                     }
                 }

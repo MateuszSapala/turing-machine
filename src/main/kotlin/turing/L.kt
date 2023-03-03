@@ -7,4 +7,5 @@ enum class L(val value: String) {
     _0("0"),
     _1("1"),
     EMPTY("[]"),
+    E("e"),
 }
