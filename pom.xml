@@ -10,8 +10,8 @@
     <groupId>uni.lodz.pl</groupId>
     <artifactId>2023.02.21</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>2023.02.21</name>
-    <description>Paradygmaty</description>
+    <name>Turing Machine</name>
+    <description>Turing machine for checking whether a number is prime</description>
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.7.20</kotlin.version>

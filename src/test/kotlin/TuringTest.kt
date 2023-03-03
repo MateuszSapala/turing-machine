@@ -10,12 +10,12 @@ import java.util.stream.Stream
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class TuringTest {
     @ParameterizedTest
-    @MethodSource("testRunData")
-    fun testRun(number: Int) {
+    @MethodSource("testCheckIfNumberIsPrimeData")
+    fun testCheckIfNumberIsPrime(number: Int) {
         assertDoesNotThrow(Exec(number))
     }
 
-    private fun testRunData(): Stream<Arguments?>? {
+    private fun testCheckIfNumberIsPrimeData(): Stream<Arguments?>? {
         return Stream.of(
             Arguments.of(2),
             Arguments.of(3),
@@ -23,16 +23,19 @@ internal class TuringTest {
             Arguments.of(7),
             Arguments.of(11),
             Arguments.of(13),
+            Arguments.of(17),
+            Arguments.of(19),
+            Arguments.of(23),
         )
     }
 
     @ParameterizedTest
-    @MethodSource("testRunThrowData")
-    fun testRunThrow(number: Int) {
-        assertThrows(IllegalArgumentException().javaClass,Exec(number))
+    @MethodSource("testCheckIfNumberIsPrimeDataThrowData")
+    fun testCheckIfNumberIsPrimeForNotPrime(number: Int) {
+        assertThrows(IllegalArgumentException().javaClass, Exec(number))
     }
 
-    private fun testRunThrowData(): Stream<Arguments?>? {
+    private fun testCheckIfNumberIsPrimeDataThrowData(): Stream<Arguments?>? {
         return Stream.of(
             Arguments.of(1),
             Arguments.of(4),
@@ -42,12 +45,14 @@ internal class TuringTest {
             Arguments.of(10),
             Arguments.of(12),
             Arguments.of(14),
+            Arguments.of(55),
+            Arguments.of(99),
         )
     }
 
     private class Exec(val number: Int) : Executable {
         override fun execute() {
-            Turing(number).run()
+            Turing(number).checkIfNumberIsPrime()
         }
     }
 }

@@ -1,6 +1,6 @@
 package pl.lodz.uni.project1.turing
 
-enum class L(val value: String) {
+enum class Value(val value: String) {
     A("a"),
     B("b"),
     C("c"),
