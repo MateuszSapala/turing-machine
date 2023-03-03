@@ -38,13 +38,14 @@ class Turing private constructor(
             when (state) {
                 S.S0 -> {
                     when (array[i]) {
-                        L._0 -> exec(M.L, S.S1, L._0)
+                        L._0 -> exec(M.R, S.S1)
                         else -> throw IllegalArgumentException("(${S.S0},${array[i].value})")
                     }
                 }
 
                 S.S1 -> {
                     when (array[i]) {
+                        L._0 -> exec(M.L)
                         L.EMPTY -> exec(M.L, S.S2, L.A)
                         else -> throw IllegalArgumentException("(${S.S1},${array[i].value})")
                     }
