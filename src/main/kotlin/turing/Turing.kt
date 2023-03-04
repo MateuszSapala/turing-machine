@@ -30,8 +30,10 @@ class Turing private constructor(
             tape[index] = value
         }
 
-    private val badArgument
-        get() = IllegalArgumentException("(${state.value},${currentValue.value})")
+    private fun throwBadArgument() {
+        println("Latest tape state: $this")
+        throw IllegalArgumentException("(${state.value},${currentValue.value})")
+    }
 
     fun checkIfNumberIsPrime() {
         while (true) {
@@ -39,7 +41,7 @@ class Turing private constructor(
                 S0 -> {
                     when (currentValue) {
                         _0 -> nextIteration(R, S1)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -47,14 +49,14 @@ class Turing private constructor(
                     when (currentValue) {
                         _0 -> nextIteration(L)
                         EMPTY -> nextIteration(L, S2, A)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
                 S2 -> {
                     when (currentValue) {
                         EMPTY -> nextIteration(R, S3, A)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -62,14 +64,14 @@ class Turing private constructor(
                     when (currentValue) {
                         A -> nextIteration(R)
                         _0 -> nextIteration(L, S4)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
                 S4 -> {
                     when (currentValue) {
                         A -> nextIteration(R, S5, B)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -79,7 +81,7 @@ class Turing private constructor(
                         _1 -> nextIteration(R)
                         _0 -> nextIteration(L, S6, _1)
                         EMPTY -> nextIteration(L, S9)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -89,7 +91,7 @@ class Turing private constructor(
                         _1 -> nextIteration(L)
                         A -> nextIteration(R, S5, B)
                         EMPTY -> nextIteration(R, S7)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -99,7 +101,7 @@ class Turing private constructor(
                         _1 -> nextIteration(R)
                         _0 -> nextIteration(L, S8)
                         EMPTY -> nextIteration(L, S9, E)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -107,7 +109,7 @@ class Turing private constructor(
                     when (currentValue) {
                         _1 -> nextIteration(L)
                         A -> nextIteration(R, S5, B)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -115,7 +117,7 @@ class Turing private constructor(
                     when (currentValue) {
                         _1 -> nextIteration(L, S10, _0)
                         C -> nextIteration(R, Sk)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -125,7 +127,7 @@ class Turing private constructor(
                         C -> nextIteration(L)
                         A, B -> nextIteration(R, S11, C)
                         EMPTY -> nextIteration(R, S12, A)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -134,7 +136,7 @@ class Turing private constructor(
                         C -> nextIteration(R)
                         _1 -> nextIteration(R)
                         _0 -> nextIteration(L, S9)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
@@ -144,11 +146,14 @@ class Turing private constructor(
                         _1 -> nextIteration(R, S12, _0)
                         _0 -> nextIteration(L)
                         A -> nextIteration(R, S5, B)
-                        else -> throw badArgument
+                        else -> throwBadArgument()
                     }
                 }
 
-                Sk -> return
+                Sk -> {
+                    println("Ends with: $this")
+                    return
+                }
             }
         }
     }
